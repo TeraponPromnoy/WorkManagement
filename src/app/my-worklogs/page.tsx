@@ -42,6 +42,11 @@ function formatDateTime(dateStr: string) {
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear() + 543} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 }
 
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear() + 543}`;
+}
+
 function ScoreBadge({ score }: { score: number | null }) {
   if (score === null) return <span className="text-xs text-gray-400">-</span>;
   const color = score >= 8 ? "text-green-600" : score >= 5 ? "text-yellow-600" : "text-red-500";
@@ -140,22 +145,16 @@ export default function MyWorkLogsPage() {
                   <th className="px-5 py-3 text-left">รายการทีวี</th>
                   <th className="px-5 py-3 text-left">ประเภท</th>
                   <th className="px-5 py-3 text-left">รายละเอียด</th>
-                  <th className="px-5 py-3 text-center">คะแนน</th>
-                  <th className="px-5 py-3 text-left">ความเห็น</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {logs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).map((log) => (
                   <tr key={log.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => setSelectedLog(log)}>
                     <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{formatDateTime(log.createdAt)}</td>
-                    <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{formatDateTime(log.date)}</td>
+                    <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{formatDate(log.date)}</td>
                     <td className="px-5 py-3 font-medium text-gray-800">{log.tvShow?.name ?? "-"}</td>
                     <td className="px-5 py-3 text-gray-600 whitespace-nowrap">{log.category?.name ?? "-"}</td>
                     <td className="px-5 py-3 text-gray-500 max-w-xs truncate">{log.details}</td>
-                    <td className="px-5 py-3 text-center">
-                      <ScoreBadge score={log.score?.score ?? null} />
-                    </td>
-                    <td className="px-5 py-3 text-gray-400 text-xs">{log.score?.comment ?? "-"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -179,7 +178,7 @@ export default function MyWorkLogsPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-500">วันที่ทำงาน</span>
-                  <span className="text-sm font-medium">{formatDateTime(selectedLog.date)}</span>
+                  <span className="text-sm font-medium">{formatDate(selectedLog.date)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm text-gray-500">รายการทีวี</span>

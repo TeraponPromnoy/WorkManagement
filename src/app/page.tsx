@@ -43,6 +43,11 @@ function formatDateTime(dateStr: string) {
   return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear() + 543} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 }
 
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear() + 543}`;
+}
+
 export default function Home() {
   const { user: sessionUser } = useSession();
   const today = new Date().toISOString().split("T")[0];
@@ -319,7 +324,7 @@ export default function Home() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center flex-wrap gap-2 mb-1">
                       <span className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full font-medium">
-                        {formatDateTime(log.date)}
+                        {formatDate(log.date)}
                       </span>
                       <span className="text-xs text-gray-400">โดย {log.doneBy}</span>
                       <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
