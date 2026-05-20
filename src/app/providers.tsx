@@ -12,11 +12,11 @@ interface SessionUser {
 interface SessionCtx {
   user: SessionUser | null;
   loading: boolean;
-  refresh: () => void;
+  refresh: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
-const SessionContext = createContext<SessionCtx>({ user: null, loading: true, refresh: () => {}, logout: async () => {} });
+const SessionContext = createContext<SessionCtx>({ user: null, loading: true, refresh: async () => {}, logout: async () => {} });
 
 export function useSession() {
   return useContext(SessionContext);
@@ -26,9 +26,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const refresh = useCallback(() => {
+  const refresh = useCallback(async () => {
     setLoading(true);
-    fetch("/api/auth/me")
+    await fetch("/api/auth/me")
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => { setUser(data); setLoading(false); })
       .catch(() => { setUser(null); setLoading(false); });

@@ -26,7 +26,7 @@ export default function LoginPage() {
       setError(d.error || "เข้าสู่ระบบไม่สำเร็จ");
       return;
     }
-    refreshSession();
+    await refreshSession();
     router.push("/");
   };
 
