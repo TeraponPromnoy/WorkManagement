@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  user
+  supervisor
+  admin
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  username     String    @unique
+  passwordHash String
+  role         Role      @default(user)
+  createdAt    DateTime  @default(now())
+  workLogs     WorkLog[]
+}
+
+model TaskCategory {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  workLogs  WorkLog[]
+}
+
+model TvShow {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  workLogs  WorkLog[]
+}
+
+model WorkLog {
+  id          Int           @id @default(autoincrement())
+  date        DateTime      @db.Date
+  tvShowId    Int?
+  tvShow      TvShow?       @relation(fields: [tvShowId], references: [id])
+  taskName    String        @default("")
+  userId      Int?
+  user        User?         @relation(fields: [userId], references: [id])
+  doneBy      String        @default("")
+  details     String        @db.Text
+  categoryId  Int?
+  category    TaskCategory? @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime      @default(now())
+  score       Score?
+}
+
+model Score {
+  id          Int      @id @default(autoincrement())
+  workLogId   Int      @unique
+  workLog     WorkLog  @relation(fields: [workLogId], references: [id], onDelete: Cascade)
+  score       Int
+  comment     String?  @db.Text
+  scoredBy    String
+  scoredAt    DateTime @default(now())
+}
