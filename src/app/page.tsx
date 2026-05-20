@@ -46,7 +46,7 @@ function formatDateTime(dateStr: string) {
 export default function Home() {
   const { user: sessionUser } = useSession();
   const today = new Date().toISOString().split("T")[0];
-  const [form, setForm] = useState({ date: today, time: new Date().toTimeString().split(" ")[0].slice(0, 5), tvShowId: "", userId: "", details: "", categoryId: "" });
+  const [form, setForm] = useState({ date: today, tvShowId: "", userId: "", details: "", categoryId: "" });
   const [categories, setCategories] = useState<Category[]>([]);
   const [tvShows, setTvShows] = useState<TvShow[]>([]);
   const [allUsers, setAllUsers] = useState<{ id: number; name: string }[]>([]);
@@ -111,7 +111,7 @@ export default function Home() {
       return;
     }
     setSuccess("บันทึกงานสำเร็จ!");
-    setForm({ date: today, time: new Date().toTimeString().split(" ")[0].slice(0, 5), tvShowId: "", userId: sessionUser?.id ? String(sessionUser.id) : "", details: "", categoryId: "" });
+    setForm({ date: today, tvShowId: "", userId: sessionUser?.id ? String(sessionUser.id) : "", details: "", categoryId: "" });
     fetchLogs();
   };
 
@@ -155,41 +155,15 @@ export default function Home() {
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">วันที่ <span className="text-red-500">*</span></label>
-              <input
-                type="date"
-                value={form.date}
-                onChange={(e) => setForm({ ...form, date: e.target.value })}
-                required
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">เวลา <span className="text-red-500">*</span></label>
-              <input
-                type="time"
-                value={form.time}
-                onChange={(e) => setForm({ ...form, time: e.target.value })}
-                required
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ทำโดย <span className="text-red-500">*</span></label>
-              <select
-                value={form.userId}
-                onChange={(e) => setForm({ ...form, userId: e.target.value })}
-                required
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              >
-                <option value="">-- เลือกผู้ทำงาน --</option>
-                {allUsers.map((u) => (
-                  <option key={u.id} value={u.id}>{u.name}</option>
-                ))}
-              </select>
-            </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">วันที่ <span className="text-red-500">*</span></label>
+            <input
+              type="date"
+              value={form.date}
+              onChange={(e) => setForm({ ...form, date: e.target.value })}
+              required
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -259,31 +233,15 @@ export default function Home() {
         <div className="bg-white rounded-2xl shadow-sm border border-blue-200 p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">แก้ไขรายการงาน</h3>
           <form onSubmit={handleSaveEdit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">วันที่ <span className="text-red-500">*</span></label>
-                <input
-                  type="date"
-                  value={editForm.date}
-                  onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
-                  required
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">ทำโดย <span className="text-red-500">*</span></label>
-                <select
-                  value={editForm.userId}
-                  onChange={(e) => setEditForm({ ...editForm, userId: e.target.value })}
-                  required
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                >
-                  <option value="">-- เลือกผู้ทำงาน --</option>
-                  {allUsers.map((u) => (
-                    <option key={u.id} value={u.id}>{u.name}</option>
-                  ))}
-                </select>
-              </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">วันที่ <span className="text-red-500">*</span></label>
+              <input
+                type="date"
+                value={editForm.date}
+                onChange={(e) => setEditForm({ ...editForm, date: e.target.value })}
+                required
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -384,11 +342,18 @@ export default function Home() {
                   </div>
                   <div className="shrink-0 text-right">
                     <div className="flex flex-col items-center gap-2">
-                      <span className="text-xs bg-gray-100 text-gray-400 px-2 py-1 rounded-full">รอคะแนน</span>
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => handleEdit(log)}
-                          className="text-blue-400 hover:text-blue-600 text-xs font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+                      {log.score ? (
+                        <span className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded-full">
+                          ได้คะแนนแล้ว
+                        </span>
+                      ) : (
+                        <span className="text-xs bg-gray-100 text-gray-400 px-2 py-1 rounded-full">รอคะแนน</span>
+                      )}
+                      {!log.score && (
+                        <div className="flex gap-1">
+                          <button
+                            onClick={() => handleEdit(log)}
+                            className="text-blue-400 hover:text-blue-600 text-xs font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
                           >
                             แก้ไข
                           </button>
@@ -407,7 +372,8 @@ export default function Home() {
                             {deleteId === log.id ? "กำลังลบ..." : "ลบ"}
                           </button>
                         </div>
-                      </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
