@@ -27,7 +27,7 @@ export default function LoginPage() {
       return;
     }
     await refreshSession();
-    router.push("/");
+    window.location.href = "/";
   };
 
   return (
