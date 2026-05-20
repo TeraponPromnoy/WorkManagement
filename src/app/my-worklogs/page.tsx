@@ -192,26 +192,6 @@ export default function MyWorkLogsPage() {
                   <span className="text-sm text-gray-500 block mb-1">รายละเอียด</span>
                   <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">{selectedLog.details}</p>
                 </div>
-                {selectedLog.score && (
-                  <div className="pt-2 border-t border-gray-100">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-500">คะแนน</span>
-                      <span className={`text-sm font-bold ${selectedLog.score.score >= 8 ? "text-green-600" : selectedLog.score.score >= 5 ? "text-yellow-600" : "text-red-500"}`}>
-                        {selectedLog.score.score}/10
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-500">ให้คะแนนโดย</span>
-                      <span className="text-sm font-medium">{selectedLog.score.scoredBy}</span>
-                    </div>
-                    {selectedLog.score.comment && (
-                      <div className="pt-2">
-                        <span className="text-sm text-gray-500 block mb-1">ความเห็น</span>
-                        <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">{selectedLog.score.comment}</p>
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
             </div>
           </div>
