@@ -383,20 +383,12 @@ export default function Home() {
                     <p className="text-gray-500 text-xs mt-1 line-clamp-2">{log.details}</p>
                   </div>
                   <div className="shrink-0 text-right">
-                    {log.score ? (
-                      <div className="flex flex-col items-center">
-                        <span className={`text-2xl font-bold ${log.score.score >= 8 ? "text-green-600" : log.score.score >= 5 ? "text-yellow-600" : "text-red-500"}`}>
-                          {log.score.score}<span className="text-sm text-gray-400">/10</span>
-                        </span>
-                        <span className="text-xs text-gray-400">โดย {log.score.scoredBy}</span>
-                      </div>
-                    ) : (
-                      <div className="flex flex-col items-center gap-2">
-                        <span className="text-xs bg-gray-100 text-gray-400 px-2 py-1 rounded-full">รอคะแนน</span>
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() => handleEdit(log)}
-                            className="text-blue-400 hover:text-blue-600 text-xs font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
+                    <div className="flex flex-col items-center gap-2">
+                      <span className="text-xs bg-gray-100 text-gray-400 px-2 py-1 rounded-full">รอคะแนน</span>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => handleEdit(log)}
+                          className="text-blue-400 hover:text-blue-600 text-xs font-medium px-2 py-1 rounded hover:bg-blue-50 transition-colors"
                           >
                             แก้ไข
                           </button>
@@ -416,7 +408,6 @@ export default function Home() {
                           </button>
                         </div>
                       </div>
-                    )}
                   </div>
                 </div>
               </div>
