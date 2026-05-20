@@ -28,10 +28,10 @@ export async function GET(request: NextRequest) {
   });
 
   const total = logs.length;
-  const scored = logs.filter((l) => l.score !== null);
+  const scored = logs.filter((l: any) => l.score !== null);
   const totalScore =
     scored.length > 0
-      ? scored.reduce((sum, l) => sum + (l.score?.score ?? 0), 0)
+      ? scored.reduce((sum, l: any) => sum + (l.score?.score ?? 0), 0)
       : 0;
 
   const byPerson: Record<string, { count: number; totalScore: number; scoredCount: number }> = {};
